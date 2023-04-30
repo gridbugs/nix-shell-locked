@@ -1,7 +1,7 @@
 use std::{path::PathBuf, process};
 
 struct CliArgs {
-    dryrun: bool,
+    dry_run: bool,
     override_config_file: Option<PathBuf>,
     override_flake_lockfile: Option<String>,
     packages: Vec<String>,
@@ -12,19 +12,19 @@ impl CliArgs {
     fn parser() -> impl meap::Parser<Item = Self> {
         meap::let_map! {
             let {
-                dryrun =
-                    flag("dryrun")
+                dry_run =
+                    flag("dry-run")
                         .desc("print the command that would be executed instead of executing it");
                 override_config_file =
-                    opt_opt("PATH", "config")
-                        .name('c')
+                    opt_opt("PATH", 'c')
+                        .name("config")
                         .desc(format!(
                             "path to config file to use (defaults to $XDG_CONFIG_HOME/{})",
                             crate::defaults::CONFIG_FILENAME,
                         ));
                 override_flake_lockfile =
-                    opt_opt("PATH", "lockfile")
-                        .name('l')
+                    opt_opt("PATH", 'l')
+                        .name("lockfile")
                         .desc("path to flake lockfile to use when determining nixpkgs revision");
                 packages =
                     pos_multi("PACKAGES")
@@ -34,7 +34,7 @@ impl CliArgs {
                         .desc("Additional arguments to pass to `nix shell`");
             } in {
                 Self {
-                    dryrun,
+                    dry_run,
                     override_config_file,
                     override_flake_lockfile,
                     packages,
@@ -51,7 +51,7 @@ pub enum Override {
 }
 
 pub struct Args {
-    pub dryrun: bool,
+    pub dry_run: bool,
     pub override_: Option<Override>,
     pub packages: Vec<String>,
     pub passthrough_args: Vec<String>,
@@ -61,7 +61,7 @@ impl Args {
     pub fn parse() -> Self {
         use meap::Parser;
         let CliArgs {
-            dryrun,
+            dry_run,
             override_config_file,
             override_flake_lockfile,
             packages,
@@ -91,7 +91,7 @@ impl Args {
             .map(Override::ConfigFile)
             .or(override_flake_lockfile.map(Override::FlakeLockfile));
         Self {
-            dryrun,
+            dry_run,
             override_,
             packages,
             passthrough_args,

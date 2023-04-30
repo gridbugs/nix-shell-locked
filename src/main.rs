@@ -104,7 +104,7 @@ fn make_command(
 
 fn run() -> Result<()> {
     let Args {
-        dryrun,
+        dry_run,
         override_,
         packages,
         passthrough_args,
@@ -120,7 +120,7 @@ fn run() -> Result<()> {
         process::exit(1);
     }
     let command = make_command(&packages, &nixpkgs_revision, &passthrough_args);
-    if dryrun {
+    if dry_run {
         println!("{}", command.join(" "));
         Ok(())
     } else {
