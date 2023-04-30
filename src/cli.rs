@@ -81,6 +81,7 @@ impl Args {
                 Read more at https://github.com/gridbugs/nix-shell-locked
                 "
             )
+            .with_version_default(env!("CARGO_PKG_VERSION"))
             .parse_env_or_exit();
         if override_config_file.is_some() && override_flake_lockfile.is_some() {
             eprintln!("Specify at most one of --config and --lockfile");
