@@ -113,6 +113,12 @@ fn run() -> Result<()> {
     log::info!("using lockfile: {}", config.flake_lockfile);
     let nixpkgs_revision = read_nixpkgs_revision(config.expand_flake_lockfile_path()?)?;
     log::info!("nixpkgs revision is: {}", nixpkgs_revision);
+    if packages.is_empty() {
+        eprintln!(
+            "Refusing to start shell with no packages installed. Specify at least one package."
+        );
+        process::exit(1);
+    }
     let command = make_command(&packages, &nixpkgs_revision, &passthrough_args);
     if dryrun {
         println!("{}", command.join(" "));
