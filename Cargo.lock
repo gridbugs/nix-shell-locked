@@ -216,9 +216,9 @@ dependencies = [
 
 [[package]]
 name = "meap"
-version = "0.7.0"
+version = "0.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fb7157c12272dc891c09b04c5142a87e219b7fcd4acf23d1ed73627972cd772c"
+checksum = "49f628c2dfbce5f09aa9a2f23f5207016fb37eb54a53663504a2ca79c2729330"
 
 [[package]]
 name = "memchr"
