@@ -1,5 +1,7 @@
 # Nix Shell Locked
 
+[![Latest Version](https://img.shields.io/crates/v/nix-shell-locked.svg)](https://crates.io/crates/nix-shell-locked)
+
 `nix-shell-locked` is a program which starts a new shell with some specified
 packages installed without installing them user or system wide. Packages are
 installed from a revision of [nixpkgs](https://github.com/NixOS/nixpkgs/) taken
