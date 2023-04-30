@@ -41,7 +41,7 @@ revision as the system-wide configuration, and there is.
 
 My system config has a flake.lock file with a section:
 
-```json
+```js
 // /path/to/config/repo/flake.lock
 {
   "nodes": {
