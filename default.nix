@@ -9,7 +9,7 @@ rustPlatform.buildRustPackage rec {
 
   src = ./.;
 
-  cargoSha256 = "sha256-eeYFJqFWKlJgB9UK/j4+SH8yaXKRwI9AyqwXWLBrHjs=";
+  cargoSha256 = "sha256-iGSMCVi8+uvDogDWAXDmpwG/EeOvUXe0OLnw/ha8Y+c=";
 
   meta = with lib; {
     homepage = "https://github.com/gridbugs/nix-shell-locked";
