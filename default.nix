@@ -5,11 +5,11 @@
 }:
 rustPlatform.buildRustPackage rec {
   pname = "nix-shell-locked";
-  version = "0.1.1";
+  version = "0.2.0";
 
   src = ./.;
 
-  cargoSha256 = "sha256-VDklaYhfrj9lkLd00P6fec79XqIck4ma+hU8gyaA3MY=";
+  cargoSha256 = "sha256-v8T56xDj1PG0dDHD4d8ngDQ8C/DGVtYKsZPQnXGt1Rg=";
 
   meta = with lib; {
     homepage = "https://github.com/gridbugs/nix-shell-locked";
