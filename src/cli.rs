@@ -19,7 +19,7 @@ impl CliArgs {
                     opt_opt("PATH", "config")
                         .name('c')
                         .desc(format!(
-                            "path to config file to use (defaults to $XDG_CONFIG_HOME/{}",
+                            "path to config file to use (defaults to $XDG_CONFIG_HOME/{})",
                             crate::defaults::CONFIG_FILENAME,
                         ));
                 override_flake_lockfile =
@@ -66,7 +66,22 @@ impl Args {
             override_flake_lockfile,
             packages,
             passthrough_args,
-        } = CliArgs::parser().with_help_default().parse_env_or_exit();
+        } = CliArgs::parser()
+            .with_help_default()
+            .with_program_description(
+                "Start a transient shell with some specified packages installed.\n\
+                Packages are installed from the nixpkgs repo matching the revision from a flake.lock file.\n\
+                Intended to be used to temporarily test out packages without committing to installing them,\n\
+                and to guarantee that the packages are compatible with system-wide or home-manager configs\n\
+                managed with flakes.\n\
+                \n\
+                Configure with a file ~/.config/nix-shell-locked.toml, e.g.:\n\
+                flake_lockfile = \"/path/to/flake.lock\"\n\
+                \n\
+                Read more at https://github.com/gridbugs/nix-shell-locked
+                "
+            )
+            .parse_env_or_exit();
         if override_config_file.is_some() && override_flake_lockfile.is_some() {
             eprintln!("Specify at most one of --config and --lockfile");
             process::exit(1);
