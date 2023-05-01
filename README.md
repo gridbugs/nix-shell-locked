@@ -97,7 +97,7 @@ Extra Args:
     [ARGS ...]    Additional arguments to pass to `nix shell`
 ```
 
-## Example
+## Detailed Example
 
 I use flakes to manage both my NixOS system configuration and home-manager. I
 want to try out the gameboy emulator "sameboy" but I don't want to commit to
