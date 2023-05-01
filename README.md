@@ -3,16 +3,101 @@
 [![Latest Version](https://img.shields.io/crates/v/nix-shell-locked.svg)](https://crates.io/crates/nix-shell-locked)
 
 `nix-shell-locked` is a program which starts a new shell with some specified
-packages installed without installing them user or system wide. Packages are
+packages available without installing them user or system wide. Packages are
 installed from a revision of [nixpkgs](https://github.com/NixOS/nixpkgs/) taken
-from a `flake.lock` file whose path is configured in
-`~/.config/nix-shell-locked.toml`. This is intended as a replacement for
-`nix-shell` in cases where flakes is used to manage either a NixOS system
-configuration or home-manager. The problem with `nix-shell` is that it uses the
-nixpkgs channel which can get out sync with the version of nixpkgs in a
-flake-managed system or home-manager config which can lead to runtime errors.
+from a `flake.lock` file associated with a system or home-manager config. Reads
+a config file at `~/.config/nix-shell-locked.toml` to find out which flake
+lockfile to look in to determine the nixpkgs revision to use.
 
-## For Example
+```toml
+# ~/.config/nix-shell-locked.toml
+flake_lockfile = "/path/to/config/repo/flake.lock"
+```
+
+This is intended as a replacement for `nix-shell` in cases where flakes is used
+to manage either a NixOS system configuration or home-manager. The problem with
+`nix-shell` is that it uses the nixpkgs channel which can get out sync with the
+version of nixpkgs in a flake-managed system or home-manager config which can
+lead to runtime errors.
+
+## Quick Example
+
+```bash
+# initially `cowsay` is not installed
+$ cowsay
+bash: cowsay: command not found
+
+# enter a new shell with cowsay available
+$ nix-shell-locked cowsay
+
+# now `cowsay` is installed (but only in this shell session)
+$ cowsay "Hello, World!"
+ _______________
+< Hello, World! >
+ ---------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+
+# leave the shell session
+$ exit
+exit
+
+# now `cowsay` is once again unavailable
+$ cowsay
+bash: cowsay: command not found
+```
+
+## Installation
+
+### Install flake in nix profile
+```
+$ nix profile install github:gridbugs/nix-shell-locked
+```
+
+### Install with cargo
+```
+$ cargo install nix-shell-locked
+```
+
+### Install with flakes-based home-manager
+
+See an example configuration [here](https://github.com/gridbugs/dotfiles/tree/94317accaaea260107cf9eba19202e3c802e77b0/home-manager/ebrietas).
+
+## Usage
+
+```
+$ nix-shell-locked --help
+Usage: nix-shell-locked [OPTIONS] [PACKAGES ...] -- [ARGS ...]
+Start a transient shell with some specified packages installed.
+Packages are installed from the nixpkgs repo matching the revision from a flake.lock file.
+Intended to be used to temporarily test out packages without committing to installing them,
+and to guarantee that the packages are compatible with system-wide or home-manager configs
+managed with flakes.
+
+Configure with a file ~/.config/nix-shell-locked.toml, e.g.:
+flake_lockfile = "/path/to/flake.lock"
+
+Read more at https://github.com/gridbugs/nix-shell-locked
+
+
+Args:
+    [PACKAGES ...]     list of packages to install in shell
+
+Options:
+    [--dry-run]               print the command that would be executed instead of executing it
+    [-c, --config PATH]       path to config file to use (defaults to $XDG_CONFIG_HOME/nix-shell-locked.toml)
+    [-l, --lockfile PATH]     path to flake lockfile to use when determining nixpkgs revision
+    [-h, --help]              print help message
+    [-v, --version]           print version information
+
+Extra Args:
+    [ARGS ...]    Additional arguments to pass to `nix shell`
+```
+
+## Example
 
 I use flakes to manage both my NixOS system configuration and home-manager. I
 want to try out the gameboy emulator "sameboy" but I don't want to commit to
