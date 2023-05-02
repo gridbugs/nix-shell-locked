@@ -40,7 +40,7 @@ will cause nix channels to take precedent over the second entry which is the
 version of nixpkgs used to install the system. One way to remove the channels entry
 is to delete the symlink ~/.nix-defexpr/channels. There's some more information
 about this [in this
-thread](https://discourse.nixos.org/t/nix-shell-locked-tool-that-starts-transient-shell-with-temporary-packages-that-reads-flake-lock-to-determine-nixpkgs-version/27766)
+thread](https://discourse.nixos.org/t/nix-shell-locked-tool-that-starts-transient-shell-with-temporary-packages-that-reads-flake-lock-to-determine-nixpkgs-version/27766).
 
 ## Quick Example
 
