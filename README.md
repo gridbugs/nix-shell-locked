@@ -20,6 +20,28 @@ to manage either a NixOS system configuration or home-manager. The problem with
 version of nixpkgs in a flake-managed system or home-manager config which can
 lead to runtime errors.
 
+## Fixing `nix-shell` instead
+
+Rather than working around the issue with this tool you can make `nix-shell` use
+the same nixpkgs as was used to install the system. `nix-shell` and friends use
+the `NIX_PATH` environment variable to know which version of nixpkgs to use to
+source packages. This can be configured with this setting in configuration.nix:
+```nix
+  nix.nixPath = [ "nixpkgs=${pkgs.path}" ];
+```
+
+This will result in new shells having `NIX_PATH` set to something like:
+```
+/home/<user>/.nix-defexpr/channels:nixpkgs=/nix/store/q6kh2iz0nzm5mpyijqki57q38llscczi-s9yan4kpplycs6i3iplair8q74vz5r5s-source
+```
+
+We're not quite done yet though as that first entry (it's a ":" separated list)
+will cause nix channels to take precedent over the second entry which is the
+version of nixpkgs used to install the system. One way to remove the channels entry
+is to delete the symlink ~/.nix-defexpr/channels. There's some more information
+about this [in this
+thread](https://discourse.nixos.org/t/nix-shell-locked-tool-that-starts-transient-shell-with-temporary-packages-that-reads-flake-lock-to-determine-nixpkgs-version/27766)
+
 ## Quick Example
 
 ```bash
